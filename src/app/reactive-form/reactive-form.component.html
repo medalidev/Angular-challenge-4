@@ -1,0 +1,57 @@
+<form class="container" [formGroup]="userForm">
+    {{userForm.value | json}}
+
+    <fieldset>
+        <legend>Informations générales</legend>
+        <div class="mb-3">
+            <label for="exampleInputPassword1" class="form-label">Nom :</label>
+            <input type="text" class="form-control" formControlName="Name"
+                [class.is-invalid]="name?.invalid && name?.touched">
+            <div *ngIf="name?.invalid && name?.touched">
+                <small class="text-danger" *ngIf="name?.hasError('required')">Name is required</small>
+                <small class="text-danger" *ngIf="name?.hasError('minlength')">Name has at least 3 caracters</small>
+            </div>
+        </div>
+
+        <div class="mb-3">
+            <label for="exampleInputEmail1" class="form-label">Email :</label>
+            <input type="email" class="form-control" formControlName="email"
+                [class.is-invalid]="email?.invalid && email?.touched">
+            <div *ngIf="email?.invalid && email?.touched">
+                <small class="text-danger" *ngIf="email?.hasError('required')">Email is required</small>
+                <small class="text-danger" *ngIf="email?.hasError('pattern')">Email invalid</small>
+            </div>
+        </div>
+
+        <div formGroupName="payementInformations">
+            <legend>Informations de payement</legend>
+            <div class="mb-3">
+                <label for="exampleInputEmail1" class="form-label">Type de carte :</label>
+                <input type="text" class="form-control" formControlName="typeCarte"
+                    [class.is-invalid]="typeCarte?.invalid && typeCarte?.touched">
+                <small class="text-danger" *ngIf="typeCarte?.hasError('required') && typeCarte?.touched">Type de carte
+                    is required</small>
+            </div>
+
+            <div class="mb-3">
+                <label for="exampleInputEmail1" class="form-label">Numéro carte :</label>
+                <input type="number" class="form-control" formControlName="numero"
+                    [class.is-invalid]="numero?.invalid && numero?.touched">
+                <div *ngIf="numero?.invalid && (numero?.touched || numero?.dirty)">
+                    <small class="text-danger" *ngIf="numero?.hasError('required')">Numero carte is required</small>
+                    <small class="text-danger" *ngIf="numero?.hasError('missMatch')">Numero carte has 16 caracters</small>
+                </div>
+            </div>
+
+            <div class="mb-3">
+                <label for="exampleInputEmail1" class="form-label">Date éxpiration :</label>
+                <input type="date" class="form-control" formControlName="dateExpiration">
+            </div>
+            <div class="mb-3" *ngIf="numero?.valid && typeCarte?.valid">
+                <label for="exampleInputEmail1" class="form-label">Code :</label>
+                <input type="number" class="form-control" formControlName="code">
+            </div>
+        </div>
+        <button type="submit" class="btn btn-outline-dark" [disabled]="userForm.invalid">Ajouter</button>
+    </fieldset>
+</form>
